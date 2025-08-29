@@ -49,14 +49,19 @@ function BookMyTripMain() {
       alert("Required fields are missing...!!!");
       return;
     }
+    if (!newBooking.shuttleId) {
+      alert("Shuttle not assigned for this route."); 
+      return;
+    }
 
     const token = localStorage.getItem("token");
 
     try {
+      const tripDateTime = `${newBooking.date} ${newBooking.time}`;
       const availability = await checkAvailability(
         {
           shuttleId: newBooking.shuttleId,
-          tripDate: newBooking.date + " " + newBooking.time
+          tripDate: tripDateTime
         },
         token
       );
@@ -69,7 +74,7 @@ function BookMyTripMain() {
       const result = await bookMyTrip(
         {
           routeId: newBooking.routeId,
-          tripDate: newBooking.date + " " + newBooking.time
+          tripDate: tripDateTime
         },
         token
       );
