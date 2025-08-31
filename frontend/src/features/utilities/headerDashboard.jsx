@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import notification from "../../assets/notification.svg";
 import user from "../../assets/user.svg";
 import dashboard from "../../assets/dashboard.svg";
@@ -8,8 +8,10 @@ import booking from "../../assets/bookTrip.svg";
 import tripHistory from "../../assets/tripHistory.svg";
 import wallet from "../../assets/wallet.svg";
 import viewProfile from "../../assets/viewProfile.svg";
+import { logoutUser } from "../../services/authServices";
 
 function HeaderDashboard() {
+  const navigate = useNavigate();
   const [isDark, setIsDark] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -21,6 +23,16 @@ function HeaderDashboard() {
     { icon: wallet, label: "Wallet balance", path: "/user/wallet" },
     { icon: viewProfile, label: "View profile", path: "/user/profile" },
   ];
+
+  const handleLogout = async ()=> {
+    try {
+      await logoutUser();
+      alert("Logged out successfully...!!!");
+      navigate("/");
+    } catch(error) {
+      console.log("Error in logout user is: ", error.message);
+    }
+  }
 
   return (
     <header className="border-b-2 border-indigo-600 p-4 bg-white dark:bg-gray-900 shadow-md">
@@ -87,7 +99,7 @@ function HeaderDashboard() {
             </button>
             <img src={notification} className="h-6 w-6 invert" alt="Notifications" />
             <img src={user} className="h-6 w-6 invert" alt="User" />
-            <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded-md">
+            <button onClick={handleLogout} className="bg-red-600 hover:bg-red-700 cursor-pointer text-white px-4 py-1 rounded-md">
               🚪 Logout
             </button>
           </div>
