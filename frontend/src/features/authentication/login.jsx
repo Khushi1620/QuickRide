@@ -6,6 +6,8 @@ import { z } from 'zod';
 import { useContext } from 'react';
 import {useNavigate} from 'react-router-dom';
 import { AuthContext } from '../../context/authContext';
+import { Link } from 'react-router-dom';
+
 
 // Login schema
 const loginSchema = z.object({
@@ -78,7 +80,9 @@ function Login() {
 
           <div className="flex justify-center mb-10">
             <h2>Don't have an account?</h2>
-            <a className="font-semibold" href="">Register</a>
+            <Link className="font-semibold text-indigo-400 hover:text-indigo-600" to="/register">
+    Register
+  </Link>
           </div>
         </form>
       </div>
