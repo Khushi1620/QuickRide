@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { registerUser } from '../../services/authServices';
+import { useNavigate } from 'react-router-dom';
 
 // Schema validation using Zod
 const registerSchema = z.object({
@@ -25,6 +26,7 @@ const registerSchema = z.object({
 });
 
 function Register() {
+  const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(registerSchema)
   });
@@ -34,6 +36,11 @@ function Register() {
       const result = await registerUser(data);
       console.log("Server responses: ", result.data);
       alert(result.data.message || "User registered successfully!");
+       if (result.data.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/user/dashboard");
+      }
     } catch(error) {
       console.log("Error in registration frontend: "+ error.message);
       alert('Registration failed...!!!');
