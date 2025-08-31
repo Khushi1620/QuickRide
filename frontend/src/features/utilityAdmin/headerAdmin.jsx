@@ -9,11 +9,13 @@ import tripAnalysis from '../../assets/tripAnalysis.svg';
 import viewProfile from '../../assets/viewProfile.svg';
 import '../../ResponsiveCSS/responsive.css';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // ✅ Import Link
+import { Link, useNavigate } from 'react-router-dom'; // ✅ Import Link
+import { logoutAdmin } from '../../services/authServices';
 
 function HeaderAdmin() {
   const [isDark, setIsDark] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const menuItems = [
     { icon: dashboard, label: "Dashboard", path: "/admin/dashboard" },
@@ -24,6 +26,16 @@ function HeaderAdmin() {
     { icon: wallet, label: "Recharge Wallet", path: "/admin/wallet" },
     { icon: viewProfile, label: "View Profile", path: "/admin/profile" },
   ];
+
+  const handleLogout = async()=> {
+    try {
+      await logoutAdmin();
+      alert("Logged out successfully...!!!");
+      navigate("/");
+    } catch(error) {
+      console.log("Error in handle logout admin is: ", error.message);
+    }
+  }
 
   return (
     <header className="border-b-2 border-indigo-600 p-4 bg-white dark:bg-gray-900 shadow-md">
@@ -81,7 +93,7 @@ function HeaderAdmin() {
             </button>
             <img src={notification} className="h-6 w-6 invert" alt="Notifications" />
             <img src={user} className="h-6 w-6 invert" alt="User" />
-            <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded-md">
+            <button onClick={handleLogout} className="bg-red-600 cursor-pointer hover:bg-red-700 text-white px-4 py-1 rounded-md">
               🚪 Logout
             </button>
           </div>
