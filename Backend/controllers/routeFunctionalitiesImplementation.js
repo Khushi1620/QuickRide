@@ -24,8 +24,18 @@ const addRoute = async (request, response)=> {
 }
 const getAllRoutes = async (request, response)=> {
     try {
-       const allRoutes = await Route.find();
-       response.status(200).send({ routes: allRoutes });
+       const routes = await Route.find().lean();
+    const routesWithShuttle = await Promise.all(
+      routes.map(async (route) => {
+        const shuttle = await Shuttle.findOne({ routeId: route._id });
+        return { 
+          ...route, 
+          shuttleId: shuttle?._id || null,  
+          shuttleInfo: shuttle || null    
+        };
+      })
+    );
+       response.status(200).send({ routes: routesWithShuttle });
     } catch(error) {
       response.status(400).send("Error in getAllRoutes: "+error.message);
     }
@@ -89,4 +99,5 @@ const deleteRouteById = async (request, response)=> {
       response.status(400).send("Error in deleteRouteById: "+error.message);
      }
 }
+
 module.exports = {addRoute, getAllRoutes, getRouteById, updateRouteById, deleteRouteById};
