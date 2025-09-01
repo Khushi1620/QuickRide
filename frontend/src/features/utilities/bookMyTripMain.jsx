@@ -15,6 +15,7 @@ function BookMyTripMain() {
   const fetchRoutes = async () => {
     try {
       const result = await getRoutes();
+      console.log(result.data.routes);
       setRoutes(result.data.routes || []);
     } catch (error) {
       console.log("Error in fetch routes in book trip are: ", error.message);
@@ -29,6 +30,7 @@ function BookMyTripMain() {
   useEffect(() => {
     const selectedRoute = routes.find((r) => r._id === newBooking.routeId);
     if (selectedRoute) {
+      console.log("Selected routes object: ", selectedRoute);
       setNewBooking((data) => ({
         ...data,
         fare: selectedRoute.fare,
@@ -45,6 +47,7 @@ function BookMyTripMain() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Booking Object Being Sent:", newBooking);
     if (!newBooking.routeId || !newBooking.date || !newBooking.time) {
       alert("Required fields are missing...!!!");
       return;
@@ -74,6 +77,7 @@ function BookMyTripMain() {
       const result = await bookMyTrip(
         {
           routeId: newBooking.routeId,
+          shuttleId: newBooking.shuttleId,
           tripDate: tripDateTime
         },
         token
