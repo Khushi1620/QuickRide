@@ -70,7 +70,7 @@ function HeaderDashboard() {
           </button>
           <img src={notification} className="h-6 w-6 invert" alt="Notifications" />
           <img src={user} className="h-6 w-6 invert" alt="User" />
-          <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded-md">
+          <button onClick={handleLogout} className="bg-red-600 cursor-pointer hover:bg-red-700 text-white px-4 py-1 rounded-md">
             🚪 Logout
           </button>
         </div>
