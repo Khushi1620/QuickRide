@@ -46,8 +46,8 @@ function UpcomingTripsMain() {
                 <p>⏰ Time: {new Date(trip.tripDate).toLocaleTimeString()}</p>
                 <p>💰 Fare: ₹{trip.fare}</p>
                 <button
-                  onClick={() => handleCancel(trip._id)}
-                  className="bg-red-600 hover:bg-red-700 px-4 py-1 rounded text-white font-medium"
+                  onClick={() => handleCancelTrips(trip._id)}
+                  className="bg-red-600 cursor-pointer hover:bg-red-700 px-4 py-1 rounded text-white font-medium"
                 >
                   ❌ Cancel Trip
                 </button>
